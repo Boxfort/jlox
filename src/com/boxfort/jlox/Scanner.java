@@ -99,7 +99,10 @@ public class Scanner {
                 } else if (isAlpha(c)) {
                     identifier();
                 } else {
-                    Jlox.error(line, "Unexpected character.");
+                    Jlox.error(
+                        line,
+                        String.format("Unexpected character '%s'.", c)
+                    );
                 }
                 break;
         }
@@ -120,13 +123,21 @@ public class Scanner {
         while(!isAtEnd()) {
             if (peek() == '\n') line++;
 
+            // Terminate block comment.
             if (peek() == '*' && peekNext() == '/') {
                 advance();
                 advance();
                 return;
             }
 
-            if (peek() == '\n') line++;
+            // Handle nested block comments.
+            if (peek() == '/' && peekNext() == '*') {
+                advance();
+                advance();
+                blockComment();
+                continue;
+            }
+
             advance();
         }
 
