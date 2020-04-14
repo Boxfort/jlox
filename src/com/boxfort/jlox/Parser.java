@@ -25,6 +25,7 @@ public class Parser {
 
     // expression -> ternary ("," ternary)* ;
     private Expr expression() {
+        binaryMissingLeftOperand();
         Expr expr = ternary();
 
         while(match(COMMA)) {
@@ -34,6 +35,20 @@ public class Parser {
         }
 
         return expr;
+    }
+
+    // binary -> (","|"-"|"+"|"/"|"*"|"="|"=="|"!="|">"|">="|"<"|"<=") expression
+    private void binaryMissingLeftOperand() {
+        while(match(COMMA, MINUS, PLUS, SLASH, STAR, EQUAL,
+                 EQUAL_EQUAL, BANG_EQUAL, GREATER,
+                 GREATER_EQUAL, LESS, LESS_EQUAL))
+        {
+            Token operator = previous();
+            expression();
+            throw error(operator, "Missing left hand operand.");
+        }
+
+        return;
     }
 
     // ternary -> equality ("?" equality ":" equality)* ;
