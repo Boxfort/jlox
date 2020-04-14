@@ -8,17 +8,17 @@ public class AstPrinter implements Expr.Visitor<String> {
 
     @Override
     public String visitTernaryExpr(Expr.Ternary expr) {
-        return parenthesize("ternary", expr.result, expr.left, expr.right);
+        return format("ternary", expr.result, expr.left, expr.right);
     }
 
     @Override
     public String visitBinaryExpr(Expr.Binary expr) {
-        return parenthesize(expr.operator.lexeme, expr.left, expr.right);
+        return format(expr.operator.lexeme, expr.left, expr.right);
     }
 
     @Override
     public String visitGroupingExpr(Expr.Grouping expr) {
-        return parenthesize("group", expr.expression);
+        return format("group", expr.expression);
     }
 
     @Override
@@ -29,10 +29,10 @@ public class AstPrinter implements Expr.Visitor<String> {
 
     @Override
     public String visitUnaryExpr(Expr.Unary expr) {
-        return parenthesize(expr.operator.lexeme, expr.right);
+        return format(expr.operator.lexeme, expr.right);
     }
 
-    private String parenthesize(String name, Expr... exprs) {
+    protected String format(String name, Expr... exprs) {
         StringBuilder builder = new StringBuilder();
 
         builder.append("(").append(name);
@@ -44,6 +44,7 @@ public class AstPrinter implements Expr.Visitor<String> {
 
         return builder.toString();
     }
+
 
     public static void main(String[] args) {
         Expr expression = new Expr.Binary(

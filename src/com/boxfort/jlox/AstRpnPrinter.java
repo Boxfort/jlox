@@ -1,45 +1,16 @@
 package com.boxfort.jlox;
 
 // Creates a reverse polish notation string representation of AST nodes.
-public class AstRpnPrinter implements Expr.Visitor<String> {
-    String print(Expr expr) {
-        return expr.accept(this);
-    }
-
+public class AstRpnPrinter extends AstPrinter {
     @Override
-    public String visitTernaryExpr(Expr.Ternary expr) {
-        return toRpn("ternary", expr.result, expr.left, expr.right);
-    }
-
-    @Override
-    public String visitBinaryExpr(Expr.Binary expr) {
-        return toRpn(expr.operator.lexeme, expr.left, expr.right);
-    }
-
-    @Override
-    public String visitGroupingExpr(Expr.Grouping expr) {
-        return toRpn(null, expr.expression);
-    }
-
-    @Override
-    public String visitLiteralExpr(Expr.Literal expr) {
-        if (expr.value == null) return "nil";
-        return expr.value.toString();
-    }
-
-    @Override
-    public String visitUnaryExpr(Expr.Unary expr) {
-        return toRpn(expr.operator.lexeme, expr.right);
-    }
-
-    private String toRpn(String operator, Expr... exprs) {
+    protected String format(String name, Expr... exprs) {
         StringBuilder builder = new StringBuilder();
 
         for (Expr expr : exprs) {
             builder.append(expr.accept(this));
             builder.append(" ");
         }
-        if (operator != null) builder.append(operator);
+        if (name != null) builder.append(name);
 
         return builder.toString();
     }
