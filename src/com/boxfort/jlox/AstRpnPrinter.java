@@ -7,6 +7,11 @@ public class AstRpnPrinter implements Expr.Visitor<String> {
     }
 
     @Override
+    public String visitTernaryExpr(Expr.Ternary expr) {
+        return toRpn("ternary", expr.result, expr.left, expr.right);
+    }
+
+    @Override
     public String visitBinaryExpr(Expr.Binary expr) {
         return toRpn(expr.operator.lexeme, expr.left, expr.right);
     }
