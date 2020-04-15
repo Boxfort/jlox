@@ -12,8 +12,9 @@ abstract class Expr {
     }
 
     static class Ternary extends Expr {
-        Ternary(Expr result, Expr left, Expr right) {
-            this.result = result;
+        Ternary(Expr condition, Token operator, Expr left, Expr right) {
+            this.condition = condition;
+            this.operator = operator;
             this.left = left;
             this.right = right;
         }
@@ -23,7 +24,8 @@ abstract class Expr {
             return visitor.visitTernaryExpr(this);
         }
 
-        final Expr result;
+        final Expr condition;
+        final Token operator;
         final Expr left;
         final Expr right;
     }

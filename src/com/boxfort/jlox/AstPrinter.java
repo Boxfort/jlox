@@ -8,7 +8,7 @@ public class AstPrinter implements Expr.Visitor<String> {
 
     @Override
     public String visitTernaryExpr(Expr.Ternary expr) {
-        return format("ternary", expr.result, expr.left, expr.right);
+        return format("ternary", expr.condition, expr.left, expr.right);
     }
 
     @Override

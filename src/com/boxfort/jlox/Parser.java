@@ -56,10 +56,11 @@ public class Parser {
         Expr expr = equality();
 
         while(match(QUESTION_MARK)) {
+            Token operator = previous();
             Expr left = equality();
             consume(COLON, "Expect ':' in ternary expression.");
             Expr right = equality();
-            expr = new Expr.Ternary(expr, left, right);
+            expr = new Expr.Ternary(expr, operator, left, right);
         }
 
         return expr;

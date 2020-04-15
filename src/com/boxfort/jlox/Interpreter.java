@@ -28,7 +28,21 @@ public class Interpreter implements Expr.Visitor<Object> {
 
     @Override
     public Object visitTernaryExpr(Expr.Ternary expr) {
-        return null;
+        Object condition = evaluate(expr.condition);
+        Object left = evaluate(expr.left);
+        Object right = evaluate(expr.right);
+
+        if (!(condition instanceof Boolean)) {
+            throw new RuntimeError(
+                expr.operator,
+               "Ternary condition must be a boolean value.");
+        }
+
+        if((Boolean)condition) {
+            return left;
+        } else {
+            return right;
+        }
     }
 
     @Override
@@ -73,6 +87,8 @@ public class Interpreter implements Expr.Visitor<Object> {
             case STAR:
                 checkNumberOperands(expr.operator, left, right);
                 return (double)left * (double)right;
+            case COMMA:
+                return right;
         }
 
         // Unreachable
