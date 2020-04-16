@@ -43,6 +43,11 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     }
 
     @Override
+    public Void visitVarStmt(Stmt.Var stmt) {
+        return null;
+    }
+
+    @Override
     public Object visitTernaryExpr(Expr.Ternary expr) {
         Object condition = evaluate(expr.condition);
         Object left = evaluate(expr.left);

@@ -7,6 +7,10 @@ Implementation of Lox in Java following the book [Crafting Interpreters](https:/
 ```
 program        -> statement* EOF ;
 
+declaration    -> varDecl | statement ;
+
+varDecl        -> "var" IDENTIFIER ( "=" expression )? ";" ;
+
 statement      -> exprStmt | printStmt ;
 
 exprStmt       -> expression ";" ;
@@ -19,5 +23,5 @@ comparison     -> addition ( ( ">" | ">=" | "<" | "<=" ) addition )* ;
 addition       -> multiplication ( ( "-" | "+" ) multiplication)* ;
 multiplication -> unary ( ( "/" | "*" ) unary)* ;
 unary          -> ( "!" | "-" ) unary | primary ;
-primary        -> NUMBER | STRING | "false" | "true" | "nil" | "(" expression ")" ;
+primary        -> NUMBER | STRING | "false" | "true" | "nil" | "(" expression ")" | IDENTIFIER ;
 ```
