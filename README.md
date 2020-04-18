@@ -16,7 +16,9 @@ statement      -> exprStmt | printStmt ;
 exprStmt       -> expression ";" ;
 printStmt      -> "print" expression ";" ;
 
-expression     -> ternary ("," ternary)* ;
+expression     -> assignment ;
+assignment     -> IDENTIFIER "=" assignment | chain ;
+chain          -> ternary ("," ternary)* ;
 ternary        -> equality ("?" equality ":" equality)* ;
 equality       -> comparison ( ( "!=" | "==" ) comparison )* ;
 comparison     -> addition ( ( ">" | ">=" | "<" | "<=" ) addition )* ;

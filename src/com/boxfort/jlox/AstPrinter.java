@@ -7,6 +7,11 @@ public class AstPrinter implements Expr.Visitor<String> {
     }
 
     @Override
+    public String visitAssignExpr(Expr.Assign expr) {
+        return format("assign", expr.value);
+    }
+
+    @Override
     public String visitTernaryExpr(Expr.Ternary expr) {
         return format("ternary", expr.condition, expr.left, expr.right);
     }
@@ -30,6 +35,11 @@ public class AstPrinter implements Expr.Visitor<String> {
     @Override
     public String visitUnaryExpr(Expr.Unary expr) {
         return format(expr.operator.lexeme, expr.right);
+    }
+
+    @Override
+    public String visitVariableExpr(Expr.Variable expr) {
+        return format(expr.name.lexeme);
     }
 
     protected String format(String name, Expr... exprs) {

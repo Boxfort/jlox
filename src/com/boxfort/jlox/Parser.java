@@ -2,7 +2,6 @@ package com.boxfort.jlox;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 
 import static com.boxfort.jlox.TokenType.*;
 
@@ -68,8 +67,32 @@ public class Parser {
         return new Stmt.Expression(expr);
     }
 
-    // expression -> ternary ("," ternary)* ;
+    // expression -> assignment ;
     private Expr expression() {
+        return assignment();
+    }
+
+    // assignment -> IDENTIFIER "=" assignment | chain ;
+    private Expr assignment() {
+        Expr expr = chain();
+
+        if (match(EQUAL)) {
+            Token equals = previous();
+            Expr value = assignment();
+
+            if (expr instanceof Expr.Variable) {
+                Token name = ((Expr.Variable)expr).name;
+                return new Expr.Assign(name, value);
+            }
+
+            error(equals, "Invalid assignment target.");
+        }
+
+        return expr;
+    }
+
+    // expression -> ternary ("," ternary)* ;
+    private Expr chain() {
         binaryMissingLeftOperand();
         Expr expr = ternary();
 
