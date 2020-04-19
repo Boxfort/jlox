@@ -19,7 +19,9 @@ printStmt      -> "print" expression ";" ;
 block          -> "{" declaration* "}" ;
 
 expression     -> assignment ;
-assignment     -> IDENTIFIER "=" assignment | chain ;
+assignment     -> IDENTIFIER "=" assignment | logic_or ;
+logic_or       -> logic_and ( "or" logic_and )* ;
+logic_and      -> chain ( "and" chain )* ;
 chain          -> ternary ("," ternary)* ;
 ternary        -> equality ("?" equality ":" equality)* ;
 equality       -> comparison ( ( "!=" | "==" ) comparison )* ;

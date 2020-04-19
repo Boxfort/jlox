@@ -33,6 +33,11 @@ public class AstPrinter implements Expr.Visitor<String> {
     }
 
     @Override
+    public String visitLogicalExpr(Expr.Logical expr) {
+        return format(expr.operator.lexeme, expr.left, expr.right);
+    }
+
+    @Override
     public String visitUnaryExpr(Expr.Unary expr) {
         return format(expr.operator.lexeme, expr.right);
     }
